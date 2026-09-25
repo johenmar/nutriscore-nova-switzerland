@@ -1,0 +1,16 @@
+step,n
+products in the full Open Food Facts export,4535553
+rows in filtered file (CH/DE/FR),1723191
+unique barcodes,1723164
+CH products_listed,103612
+CH with_nutriscore,42226
+CH with_nova,31433
+CH with_both,23310
+DE products_listed,408726
+DE with_nutriscore,119407
+DE with_nova,109883
+DE with_both,85866
+FR products_listed,1263828
+FR with_nutriscore,476357
+FR with_nova,345589
+FR with_both,267990
