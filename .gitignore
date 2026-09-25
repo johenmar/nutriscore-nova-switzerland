@@ -1,0 +1,9 @@
+# Open Food Facts input (1.3 GB export and the filtered subset): regenerate with scripts/filter_off.sh
+data/
+# R / LaTeX by-products
+.Rhistory
+.RData
+.Rproj.user/
+*.aux
+*.log
+*.out
