@@ -1,0 +1,214 @@
+% ================================================================
+% How often is a good Nutri-Score ultra-processed?
+% A1 portrait poster (594 x 841 mm). Compile twice (equal-height boxes): xelatex poster.tex
+% Font: Helvetica. Uses TeX Gyre Heros, the free Helvetica clone (GUST Font License,
+%   see fonts/GUST-FONT-LICENSE.txt), shipped in fonts/. Without the fonts/ folder:
+%   installed Helvetica, else TeX Gyre Heros from TeX Live.
+% ================================================================
+\documentclass{article}
+\usepackage[paperwidth=594mm,paperheight=841mm,margin=20mm,top=18mm,bottom=15mm]{geometry}
+\usepackage{fontspec}
+\IfFileExists{../fonts/texgyreheros-regular.otf}{%
+  \setmainfont{texgyreheros-regular.otf}[Path=../fonts/, BoldFont=texgyreheros-bold.otf,
+    ItalicFont=texgyreheros-italic.otf, BoldItalicFont=texgyreheros-bolditalic.otf]
+}{%
+  \IfFontExistsTF{Helvetica}{\setmainfont{Helvetica}}{\setmainfont{TeX Gyre Heros}}%
+}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,raster}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage[document]{ragged2e}   % ragged right everywhere: no stretched word spaces
+\pagestyle{empty}
+
+% ---- palette (identical to the figures) ----
+\definecolor{blue}{HTML}{2A78D6}
+\definecolor{orange}{HTML}{EB6834}
+\definecolor{ink}{HTML}{1F1F1E}
+\definecolor{ink2}{HTML}{52514E}
+\definecolor{paper}{HTML}{FCFCFB}
+\definecolor{rule}{HTML}{E4E2DC}
+\definecolor{tint}{HTML}{EEF4FC}
+\definecolor{tintor}{HTML}{FDF0EA}
+\pagecolor{paper}
+\color{ink}
+
+% ---- type scale for A1 ----
+\newcommand{\Body}{\fontsize{18.5}{24}\selectfont}
+\newcommand{\Small}{\fontsize{15.5}{20}\selectfont\color{ink2}}
+\newcommand{\Tiny}{\fontsize{12.5}{16}\selectfont\color{ink2}}
+\newcommand{\Head}{\fontsize{26}{30}\selectfont\bfseries}
+\newcommand{\Eyebrow}[1]{{\fontsize{14.5}{17}\selectfont\color{ink2}\addfontfeature{LetterSpace=12}\MakeUppercase{#1}}}
+\newcommand{\Hugenum}{\fontsize{60}{60}\selectfont\bfseries}
+\newcommand{\mn}{\char"2212\relax}                 % true minus sign
+\newcommand{\tento}[1]{10\textsuperscript{\mn#1}}  % 10^-x without math fonts
+\newcommand{\plt}[1]{p~<~\tento{#1}}              % p < 10^-x, never broken
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlist{nosep,leftmargin=1.0em,itemsep=5pt,label={\color{ink2}\textbullet}}
+\hyphenpenalty=4000
+\renewcommand{\arraystretch}{1.22}
+
+% ---- evidence-strength dots: \evid{number of filled dots}{label} ----
+\newcommand{\dotrow}[1]{%
+  \begin{tikzpicture}[baseline=-0.55ex]
+    \foreach \i in {1,2,3}{%
+      \pgfmathparse{\i<=#1 ? 1 : 0}%
+      \ifnum\pgfmathresult=1 \fill[ink] (\i*0.7em,0) circle (0.25em);
+      \else \draw[ink2,line width=1pt] (\i*0.7em,0) circle (0.21em); \fi}
+  \end{tikzpicture}}
+\newcommand{\evid}[2]{{\fontsize{15.5}{18}\selectfont\color{ink2}\dotrow{#1}\hspace{0.45em}#2}}
+
+\tcbset{
+  panel/.style={enhanced,valign=top,colback=white,colframe=rule,boxrule=0.9pt,arc=6pt,
+    left=16pt,right=16pt,top=14pt,bottom=14pt,boxsep=0pt},
+  tile/.style={enhanced,colback=tint,colframe=tint,arc=6pt,boxrule=0pt,
+    left=20pt,right=20pt,top=14pt,bottom=15pt,boxsep=0pt}
+}
+\newcommand{\panelhead}[1]{{\Head #1}\par\vspace{2pt}{\color{rule}\rule{\linewidth}{1.2pt}}\par\vspace{3pt}}
+
+% figure cell: letter, claim, evidence, image, caption
+\newcommand{\fig}[5]{%
+  {\fontsize{22}{27}\selectfont\bfseries{\color{blue}#1}\quad #2\hfill\mdseries{\fontsize{15.5}{18}\selectfont\color{ink2}#4}\par}\vspace{6pt}%
+  \includegraphics[width=\linewidth]{#5}\par\vspace{3pt}}
+
+
+\begin{document}\Body
+
+% ================= HEADER =================
+\begin{minipage}[t]{0.80\textwidth}\vspace{0pt}
+  {\fontsize{56}{62}\selectfont\bfseries How often is food with a good\\Nutri-Score ultra-processed?\par}
+  \vspace{12pt}
+  {\fontsize{24}{31}\selectfont\color{ink2} Nutri-Score and NOVA in 23,310 packaged foods listed for Switzerland, compared with Germany and France\\
+  Open Food Facts\enspace•\enspace 1.72 million products listed in CH, DE or FR\enspace•\enspace September 2026 snapshot\par}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.18\textwidth}\vspace{0pt}\raggedleft
+  \vspace{10pt}
+  {\fontsize{24}{30}\selectfont\bfseries Joe Martin\par}
+  {\Small jomartin@ethz.ch\par}
+\end{minipage}
+
+\vspace{12pt}{\color{ink}\rule{\textwidth}{2.5pt}}\vspace{8pt}
+
+{\fontsize{21}{27}\selectfont\textbf{Report conclusion.} Among products listed for Switzerland with both classifications, three in ten rated Nutri-Score A or B are NOVA 4.\newline The share varies strongly by food group; Germany and France show a similar pattern.\par}
+\vspace{10pt}
+
+% ================= KEY NUMBERS =================
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=18pt]
+\begin{tcolorbox}[tile,colback=tintor,colframe=tintor]
+  \Eyebrow{Figure A\enspace·\enspace Overlap}\par\vspace{4pt}
+  {\Hugenum\color{orange}29\%\par}\vspace{6pt}
+  {\bfseries of A/B products listed for Switzerland with both classifications are NOVA 4 (ultra-processed).\par}
+  {\Small 1,673 of 5,758 (95\% CI 28--30\%).\quad A: 23\%, B: 37\%\par}
+\end{tcolorbox}
+\begin{tcolorbox}[tile]
+  \Eyebrow{Figure A\enspace·\enspace Association}\par\vspace{4pt}
+  {\Hugenum\color{blue}ρ = 0.40\par}\vspace{6pt}
+  {\bfseries rank correlation between Nutri-Score points and NOVA group: a moderate association.\par}
+  {\Small 95\% CI 0.39--0.42; by grade 0.38.\quad Germany 0.45, France 0.39\par}
+\end{tcolorbox}
+\begin{tcolorbox}[tile,colback=tintor,colframe=tintor]
+  \Eyebrow{Figure C\enspace·\enspace Comparison}\par\vspace{4pt}
+  {\Hugenum\color{orange}26\%\;{\fontsize{38}{38}\selectfont\color{ink2}and}\;30\%\par}\vspace{6pt}
+  {\bfseries of A/B products are NOVA 4 in Germany and France.\par}
+  {\Small Check: 13.5\% of French NOVA 4 products are rated A/B (12.5\% published [2])\par}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vspace{10pt}
+% ================= TAKEAWAY =================
+\begin{tcolorbox}[enhanced,colback=ink,colframe=ink,arc=6pt,boxrule=0pt,left=26pt,right=26pt,top=18pt,bottom=18pt,boxsep=0pt]
+\color{white}
+\begin{minipage}[t]{0.555\linewidth}\vspace{0pt}
+{\fontsize{25}{30}\selectfont\bfseries What this means for reading a label\par}\vspace{8pt}
+{\fontsize{20}{26}\selectfont A good Nutri-Score describes the \textbf{nutrient profile}, not the \textbf{processing level}. The two labels answer different questions, so one cannot replace the other. The overlap is largest for \textbf{sweets, dairy desserts, milk and yogurt, and bread}.\par}
+\vspace{6pt}{\fontsize{16}{20}\selectfont\color{white!72!ink} These data describe labels, not health effects of processing.\par}
+\end{minipage}\hfill
+{\color{white!35!ink}\vrule width 1.2pt}\hfill
+\begin{minipage}[t]{0.39\linewidth}\vspace{0pt}
+{\fontsize{25}{30}\selectfont\bfseries What these data cannot show\par}\vspace{8pt}
+{\fontsize{18.5}{23.5}\selectfont
+\begin{itemize}[label={\color{white!60!ink}\textbullet},itemsep=6pt]
+\item \textbf{The market.} Product counts, not sales; 22\% of listed Swiss products have both scores.
+\item \textbf{Expert NOVA groups.} NOVA is assigned automatically here; even experts classify inconsistently [3].
+\item \textbf{Health effects.}
+\end{itemize}\par}
+\end{minipage}
+\end{tcolorbox}
+
+\vspace{11pt}
+% ================= FIGURES 2 x 2 =================
+{\Eyebrow{Four views of the evidence}\par}
+\vspace{6pt}
+\begin{tcolorbox}[panel,top=15pt,bottom=14pt]
+\begin{minipage}[t]{0.485\linewidth}\vspace{0pt}
+\fig{A}{Even grade A holds 23\% NOVA 4 products.}{}{n = 23,310}{../figures/poster_A_nova_by_grade.png}
+{\Small Share NOVA 4: grade A 23\% (95\% CI 21--24\%), B 37\% (35--39\%), E 75\% (74--76\%).\par}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}\vspace{0pt}
+\fig{B}{The overlap varies strongly by food group.}{}{n = 53--810 per group}{../figures/poster_B_food_groups.png}
+{\Small Food groups with $\geq$ 50 A/B products. Not shown: 446 uncategorised products (51\% NOVA 4).\par}
+\end{minipage}
+
+\vspace{27pt}
+\begin{minipage}[t]{0.485\linewidth}\vspace{0pt}
+\fig{C}{Germany and France show a similar gradient.}{}{n = 23k--268k}{../figures/poster_C_countries.png}
+{\Small Samples overlap: 56\% of Swiss A/B products are also listed in DE or FR. A/B products listed in one country only: CH 31\%, DE 27\%, FR 30\%; standardised to a common food-group mix: 26\%, 25\%, 28\%.\par}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}\vspace{0pt}
+\fig{D}{The share is not lower among often-scanned products.}{}{n = 5,758}{../figures/poster_D_scans.png}
+{\Small Scans: distinct IP addresses using the Open Food Facts app in one year. Odds ratio per doubling 1.07 (95\% CI 1.04--1.10); within food groups 1.03 (0.99--1.06).\par}
+\end{minipage}
+\end{tcolorbox}
+
+\vspace{15pt}
+% ================= BOTTOM ROW =================
+\begin{tcbraster}[raster columns=3,raster equal height,raster column skip=18pt,raster every box/.style={fontupper=\fontsize{17.5}{22.5}\selectfont}]
+\begin{tcolorbox}[panel]
+\panelhead{Background}
+\textbf{Nutri-Score} (A--E) rates the nutrient profile; it is voluntary in Switzerland, and its algorithm was updated in 2022--23. \textbf{NOVA} groups foods from unprocessed (1) to ultra-processed (4).\par\vspace{7pt}
+Earlier studies with the same database: in Spain, 26\% of grade-A products were NOVA 4 (old algorithm) [1]; in France, 12.5\% of NOVA 4 products were rated A/B after the update [2].
+\end{tcolorbox}
+\begin{tcolorbox}[panel]
+\panelhead{Data \& definitions}
+{\Small
+\begin{tabularx}{\linewidth}{@{}X r@{}}
+Products in the Open Food Facts export & \textbf{\color{ink}4,535,553}\\
+Listed for Switzerland & \textbf{\color{ink}103,612}\\
+... with Nutri-Score and NOVA group & \textbf{\color{ink}23,310}\\
+Germany / France with both & \textbf{\color{ink}85,866 / 267,990}\\
+\bottomrule
+\end{tabularx}\par}\vspace{4pt}
+Export of 24 September 2026. Both classifications as computed by Open Food Facts from declared nutrients and ingredients.
+\end{tcolorbox}
+\begin{tcolorbox}[panel]
+\panelhead{Methods \& limitations}
+Clopper--Pearson CIs, bootstrap CIs for ρ and standardisation, logistic regression.\par\vspace{2pt}
+\begin{itemize}
+\item \textbf{Selected pages:} products with both scores are not a random sample.
+\item \textbf{Headline:} 27--31\% under six restrictions; 40\% (34--46\%) weighted by scans.
+\item \textbf{One snapshot;} labels printed on packs may differ.
+\end{itemize}
+\end{tcolorbox}
+\end{tcbraster}
+
+\vfill
+% ================= FOOTER =================
+{\color{rule}\rule{\textwidth}{1.2pt}}\vspace{5pt}
+\begin{minipage}[t]{0.80\textwidth}\vspace{0pt}
+{\Tiny\textbf{\color{ink}References.}
+[1]~Romero Ferreiro C, Lora Pablos D, Gómez de la Cámara A. Two dimensions of nutritional value: Nutri-Score and NOVA. \emph{Nutrients} 2021;13:2783. \mbox{doi:10.3390/nu13082783}.\;
+[2]~Sarda B, Kesse-Guyot E, Deschamps V, et al. Complementarity between the updated version of the front-of-pack nutrition label Nutri-Score and the food-processing NOVA classification. \emph{Public Health Nutr} 2024;27:e63. \mbox{doi:10.1017/S1368980024000296}.\;
+[3]~Braesco V, Souchon I, Sauvant P, et al. Ultra-processed foods: how functional is the NOVA system? \emph{Eur J Clin Nutr} 2022;76:1245--1253. \mbox{doi:10.1038/s41430-022-01099-1}.\;
+\textbf{\color{ink}Data:} Open Food Facts contributors, openfoodfacts.org, made available under the Open Database License (ODbL 1.0).\par}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.18\textwidth}\vspace{0pt}\raggedleft
+{\Tiny\textbf{\color{ink}Code and aggregated}\\ \textbf{\color{ink}result tables} are open.\\ Code: MIT.\\ Result tables: ODbL.\par}
+\end{minipage}
+
+\end{document}
